@@ -202,5 +202,5 @@ def fcontour_filter(image_path, subtraction=15):
     for contour in filtered_contours:
         cv2.drawContours(filled_contour_image, [contour], 0, (0, 255, 255), thickness=cv2.FILLED)
 
-    return contour_image, filled_contour_image
+    return contour_image, filled_contour_image, image
 
