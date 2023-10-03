@@ -6,7 +6,10 @@ import matplotlib.pyplot as plt  # Import plt for plotting
 import matplotlib.cm as cm
 
 # Load your data from the txt file (replace 'data.txt' with your file path)
-data = pd.read_csv('H:/WFH/AI/data/HiSeqV2_PANCAN.txt', delimiter='\t', index_col=0)
+#data = pd.read_csv('H:/WFH/AI/data/HiSeqV2_PANCAN.txt', delimiter='\t', index_col=0)
+data = pd.read_csv('H:/WFH/AI/data/Reordered_Data.txt', delimiter='\t', index_col=0)
+data = data.drop(columns=["Cluster"])
+
 
 # Separate patients and controls
 patients = data.loc[:, data.columns.str[13] != '1']
