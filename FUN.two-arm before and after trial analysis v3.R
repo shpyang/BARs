@@ -5,9 +5,10 @@ require(haven)
 library(emmeans)
  
 
-FUN.BA=function(data, outcome.name, outcome.before, outcome.after, id.name, trt.name, trt.levels, covariates, rd)
+FUN.BA=function(data, outcome.name, outcome.before, outcome.after, id.name, trt.name, trt.levels, covariates, rd, rd2)
 { if (missing(rd)) {rd=2}
-data$outcome.before=data[,outcome.before]
+  if (missing(rd2)) {rd2=1}
+  data$outcome.before=data[,outcome.before]
 data$outcome.after =data[,outcome.after] 
 data$id=data[,id.name]
 
@@ -54,8 +55,8 @@ wtrt=substr(mdiff[,1], 1, max(nchar(trt.levels)))
 mdout=paste0(round(mdiff[,2],2), " (", round(mdiff[,3],2), ")")
 
 ddifft=t(as.matrix(mout[[10]][row.names(mout[[10]])==paste0("trt", trt.levels[2], ":time"),] ))
-ddiff=rbind(t(c("Reference", "")), c(paste0(round(ddifft[1,1],3), "(", round((ddifft[1,1]-qt(.975, ddifft[,3])*ddifft[1,2]),3), ", ",
-                                               round((ddifft[1,1]+qt(.975, ddifft[,3])*ddifft[1,2]),3), ")"), round(ddifft[1,5],3)))
+ddiff=rbind(t(c("Reference", "")), c(paste0(round(ddifft[1,1],rd2), "(", round((ddifft[1,1]-qt(.975, ddifft[,3])*ddifft[1,2]),rd2), ", ",
+                                               round((ddifft[1,1]+qt(.975, ddifft[,3])*ddifft[1,2]),rd2), ")"), round(ddifft[1,5],3)))
 
 
 out=as.data.frame(cbind(c(outcome.name, ""), wtrt, mnout, mdout, ddiff))
