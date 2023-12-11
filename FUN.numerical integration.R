@@ -3,8 +3,8 @@ B=1000
 #https://vasishth.github.io/bayescogsci/book/hypothesis-testing-using-the-bayes-factor.html
 
 
-FUN.int=function(n1, n2, mT, sT, mX, sX, muT0, muX0, sig02)
-{
+FUN.int=function(n1, n2, mT, sT, mX, sX, muT0, muX0, sig02, printTF)
+{if (missing(printTF)) {printTF=TRUE}
 #n1=n2=22; mX=25; mT=30; sX=9; sT=10
 #muX0=26; muT0=30; sig02=sX^2  *1000
 
@@ -26,10 +26,10 @@ sdX=sqrt(1/(n1/sigX2+1/sig02))
 #print(meanT); print(ybarT); print(sqrt(sigT2/n1)); print(sdT)
 #print(meanX); print(ybarX); print(sqrt(sigX2/n2)); print(sdX)
 
-print(paste0("P for a one-sided t test is ", round(t.test(T, X, alternative="greater")$p.value, 3)))
+if (printTF) {print(paste0("P for a one-sided t test is ", round(t.test(T, X, alternative="greater")$p.value, 3)))}
 a=(meanT-meanX)/sdX
 b=sdT/sdX
-return(integrate(integrand, lower=-Inf, upper=Inf, a, b)$value)
+return(list(integrate(integrand, lower=-Inf, upper=Inf, a, b)$value, round(t.test(T, X, alternative="greater")$p.value, 3)))
 }
 
 
