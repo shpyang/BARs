@@ -71,10 +71,6 @@ FUN.BAlog=
   
   names(out) = c("Outcome.var", "Treatment", "Baseline", "Change", 
                  "Difference", "P value")
-  if (LTransformed) {
-    names(out) = c("Outcome.var", "Treatment", "Baseline of log2-transformed", 
-                   "Change of log2-transformed", "Intervention main effect", 
-                   "P value")
-  }
+ 
   return(out)
   }
