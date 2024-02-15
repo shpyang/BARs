@@ -1,3 +1,9 @@
+QT <- function(x) {
+  # Define your custom computation here
+  result <- quantile(x, c(.25, .5, .75), na.rm=TRUE)  # For example, compute the mean of x and multiply by 2
+  return(result)
+}
+
 FUN.BAnb=
 function (data, outcome.name, outcome.before, outcome.after, 
             id.name, trt.name, trt.levels, covariates, rd, rd2, rd3) 
@@ -21,11 +27,7 @@ function (data, outcome.name, outcome.before, outcome.after,
   mnout
   
   
-  QT <- function(x) {
-    # Define your custom computation here
-    result <- quantile(x, c(.25, .5, .75), na.rm=TRUE)  # For example, compute the mean of x and multiply by 2
-    return(result)
-  }
+
   
   qtl = aggregate(data$outcome.before, list(data$trt), FUN = "QT" )
   qmnout=paste0(round(qtl[,2][,2], rd), "(", round(qtl[,2][,1], rd), ", ", round(qtl[,2][,3], rd), ")")
@@ -87,10 +89,11 @@ function (data, outcome.name, outcome.before, outcome.after,
   
   out
   
-  
+  print("XXX")
+  print(mg3[1,])
   library(MASS)
   
-  model <- glm.nb(ctc.y ~ ctc.x + group + sex + assay_site , data = mgc)
+  model <- glm.nb(outcome.after ~ outcome.before + group + sex + assay_site, data=data)
   print(summary(model))
   return(out)
 }

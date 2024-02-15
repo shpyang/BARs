@@ -62,13 +62,7 @@ function (data, outcome.name, outcome.before, outcome.after,
                                                                                                                    3]) * ddifft[1, 2]), rd2), ", ", round((ddifft[1, 1] + 
                                                                                                                                                              qt(0.975, ddifft[, 3]) * ddifft[1, 2]), rd2), ")"), round(ddifft[1, 
                                                                                                                                                                                                                               5], 3)))
-  if (LTransformed) {
-    ddiff = rbind(t(c("Reference", "")), c(paste0(round(exp(ddifft[1, 
-                                                                   1]), rd3), "(", round(exp(ddifft[1, 1] - qt(0.975, 
-                                                                                                               ddifft[, 3]) * ddifft[1, 2]), rd3), ", ", round(exp(ddifft[1, 
-                                                                                                                                                                          1] + qt(0.975, ddifft[, 3]) * ddifft[1, 2]), rd3), 
-                                                  ")"), round(ddifft[1, 5], 3)))
-  }
+ 
   out = as.data.frame(cbind(c(outcome.name, ""), wtrt, mnout, 
                             mdout, ddiff))
   names(out) = c("Outcome.var", "Treatment", "Baseline", "Change", 
