@@ -14,7 +14,7 @@ FUN.BAlog=
   }
   
   
-  print("XX")
+  print("Starting...")
   data$id = data[, id.name]
   data$trt = factor(data[, trt.name], levels = trt.levels)
   ms = aggregate(data$outcome.before, list(data$trt), FUN = "mean", 
@@ -37,31 +37,39 @@ FUN.BAlog=
               datab[, c("id", covariates, "trt", "time", "y")])
   mg3 = merge(mg2, base, by = "id")
   covariates_formula <- paste(covariates, collapse = "+")
-  modf = formula(paste0(" y ~ trt + time + trt:time + (1| id)+", 
-                        covariates_formula))
+  modf = formula(paste0(" y ~ trt + time + trt:time + (1| id)+",   covariates_formula))
   m3x <- lmer(modf, REML = TRUE, data = mg3)
   mout = summary(m3x)
   anova(m3x)
-  diff <- contrast(emmeans(m3x, ~trt:time), ref = trt.levels[1], 
-                   method = "revpairwise")
-  sdiff = summary(diff)
-  mdiff = as.data.frame(rbind(sdiff[sdiff$contrast == paste0("trt", trt.levels[1], 
-                                                             " time1 - ", "trt", trt.levels[1], " time0"), ], sdiff[sdiff$contrast == 
-                                                                                                               paste0("trt",trt.levels[2], " time1 - ", "trt", trt.levels[2], " time0"), 
-                                                             ]))
+ 
   
-  table(dataa$trt)
-  wtrt = substr(mdiff[, 1], 4, 3+max(nchar(trt.levels)))
+  wtrt=names(table(dataa$trt))
   n1=sum(dataa$trt==wtrt[1])
   n2=sum(dataa$trt==wtrt[2])
   wtrt=paste0(wtrt, "(n=", c(n1,n2), ")")
-  mdout = paste0(round(exp(mdiff[, 2]), rd2), " (", #round(exp(mdiff[, 3]), rd2), 
-                 round(exp(mdiff[, 2]-qt(.975, mdiff[,4])*mdiff[,3]), rd2), ", ", 
-                 round(exp(mdiff[, 2]+qt(.975, mdiff[,4])*mdiff[,3]), rd2),
-                 ")")
   
-  ddifft = t(as.matrix(mout[[10]][row.names(mout[[10]]) == 
-                                    paste0("trt", trt.levels[2], ":time"), ]))
+  
+  fixed_effects <- fixef(m3x)
+  
+  # Extract the variance-covariance matrix of the fixed effects coefficients from the model summary
+  vcov_matrix <- vcov(m3x)
+  
+  # Extract the standard errors of the fixed effects coefficients from the variance-covariance matrix
+  fixed_effects_se <- sqrt(diag(vcov_matrix))
+  
+  # Calculate the estimated change within each group
+  change_in_trt <- fixed_effects['time'] + fixed_effects[regexpr(":", names(fixed_effects))>0]  # Change in the 'trt' group
+  change_in_ck <- fixed_effects['time']  # Change in the 'ck' group
+  
+  # Calculate the standard errors for the estimated change within each group
+  se_change_in_trt <- sqrt(fixed_effects_se['time']^2 + 2 * vcov_matrix['time', regexpr(":", names(fixed_effects))>0] + fixed_effects_se[regexpr(":", names(fixed_effects))>0]^2)  # SE for change in the 'trt' group
+  se_change_in_ck <- fixed_effects_se['time']  # SE for change in the 'ck' group
+  
+  mdout=c(paste0(round(change_in_ck, rd2), "(", round(se_change_in_ck,rd2), ")"), 
+          paste0(round(change_in_trt, rd2), "(", round(se_change_in_trt,rd2), ")"))
+  
+  
+  ddifft = t(as.matrix(mout[[10]][regexpr(":", row.names(mout[[10]]))>0, ]))
   ddiff = rbind(t(c("Reference", "")), c(paste0(round(exp(ddifft[1,  1]), rd2), 
                                                 "(", round(exp(ddifft[1, 1] - qt(0.975, ddifft[, 3]) * ddifft[1, 2]), rd2), ", ",
                                                      round(exp(ddifft[1, 1] + qt(0.975, ddifft[, 3]) * ddifft[1, 2]), rd2), ")"), 
