@@ -1,4 +1,8 @@
 
+library(lmerTest)
+require(lme4)
+require(haven)
+library(emmeans)
 
 FUN.BA=
 function (data, outcome.name, time, time.levels, id.name, trt.name, trt.levels, covariates, rd, rd2, rd3) 
