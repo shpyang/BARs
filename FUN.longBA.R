@@ -1,7 +1,7 @@
 
 library(lmerTest)
-require(lme4)
-require(haven)
+library(lme4)
+library(haven)
 library(emmeans)
 
 FUN.BA=
