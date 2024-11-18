@@ -125,7 +125,7 @@ pii=pii0=rep(1, kluster); if (missing(threshold)) {threshold=1e-09}
         Beta[,k]=slm[,1] #solve(t(x[inc,])%*%x[inc,])%*%(t(x[inc,])%*%y[inc])
       sdd[k]=sd(y[inc]-x[inc,]%*%Beta[,k])
       }
-      residuals = y[inc]=x[inc, ] %*% Beta[, k]
+      residuals = y[inc]-x[inc, ] %*% Beta[, k]
       likelihood_k = sum(log(pii[k])/repeats -
                            0.5*log(2*pi*sdd[k]^2) -
                            residuals^2/(2*sdd[k]^2)
