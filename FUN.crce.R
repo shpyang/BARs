@@ -101,7 +101,7 @@ pii=pii0=rep(1, kluster); if (missing(threshold)) {threshold=1e-09}
      T[data$id==ids[w],]=Tw
     }
     
-    pii=colSums(T); log_likelohood=0
+    pii=colSums(T); log_likelihood=0
     
     for (k in kluster:1)
     {
@@ -130,11 +130,11 @@ pii=pii0=rep(1, kluster); if (missing(threshold)) {threshold=1e-09}
                            0.5*log(2*pi*sdd[k]^2) -
                            residuals^2/(2*sdd[k]^2)
                          )
-      log_likelohood = log_likelohood + likelihood_k
+      log_likelihood = log_likelihood + likelihood_k
     }
     if (equal.variance) {sdd=rep(mean(sdd, na.rm=TRUE), kluster)}
  
-   print(paste0("----- iter ", iter, " is ", log_likelohood, " -----"))
+   print(paste0("----- iter ", iter, " is ", log_likelihood, " -----"))
   if (iter>1&(all(abs(pii-pii0)<threshold))) {break}
   pii0=pii
   }  
