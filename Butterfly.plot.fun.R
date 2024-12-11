@@ -24,7 +24,9 @@
 library("HH"); library('likert')
 
 Butterfly.plot.fun=function(data.file, index1, dur, data.path, plot.path)
-{ datax=read.csv(paste0(data.path, data.file) )
+{
+  print("Start preparing data for generating a butterfly plot.")
+  datax=read.csv(paste0(data.path, data.file) )
 datax=as.data.frame(datax[!duplicated(datax),])
 
 sys=c("nausea","vomit","diarrhea","shortbreath","handfoot","numb","pain","muscache","fatigue")
@@ -227,9 +229,9 @@ for (j in c(1:9))
   {rddd[,i]=ddd[,dim(ddd)[[2]]+1-i]
   }
   names(rddd)=rev(names(ddd))
-  print("SSSSSSSSSSSSS")
+  #print("SSSSSSSSSSSSS")
 
-  print(rddd); print(ddj)
+  #print(rddd); print(ddj)
   like=likert(rddd, group=ddj[,2])
   #detach(package:irutils)
   #if (j==6) {print(like)}
@@ -257,7 +259,7 @@ for (j in c(1:9))
 }
 
 
-print("sdfas")
+#print("Completing")
 
 
 j=10
