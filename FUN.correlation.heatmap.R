@@ -36,11 +36,11 @@ notec=as.matrix(as.numeric(notec))
 dmcorp=as.data.frame(mcorp)
 row.names(dmcorp)=names(datac)
 colnames(dmcorp)=names(datac)
-write.csv(dmcorp, paste0(table.out, "/Corr table.", sys.Date(),".csv"))
+write.csv(dmcorp, paste0(table.out, "/Corr table.", Sys.Date(),".csv"))
 
 
 
-tiff(paste0(plot.out, "/Correlation map.", sys.Date(), ".tif"),
+tiff(paste0(plot.out, "/Correlation map.", Sys.Date(), ".tif"),
      width = width, height = height, pointsize=pointsize)
 par(oma=oma)
 heatmap.2(corr, Rowv = TRUE, Colv = TRUE, dendrogram = 'both', trace='none', notecol=1, cellnote=mcorp, na.color='lightgray',
