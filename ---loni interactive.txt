@@ -2,3 +2,8 @@ salloc -t 8:00:00 -n8 -N1 -A loni_sim -p single
 
 module load gcc
 module load r
+
+
+module av
+
+module list
