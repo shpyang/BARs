@@ -45,7 +45,7 @@ tiff(paste0(plot.out, "/Correlation map.", Sys.Date(), ".tif"),
      width = width, height = height, pointsize=pointsize, compression="zip")
 par(oma=oma)
 heatmap.2(corr, Rowv = TRUE, Colv = TRUE, dendrogram = 'both', trace='none', notecol=1, cellnote=mcorp, na.color='lightgray',
-          key=TRUE, main=main.tit, cexRow = cexRow, cexCol = cexCol,
+          key=TRUE, main=main.tit, cexRow = cexRow, cexCol = cexCol, lwd=lwdd,
           keysize=keysize)
 dev.off()
 }
