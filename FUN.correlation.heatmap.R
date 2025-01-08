@@ -3,7 +3,7 @@
 library('Hmisc'); library('gplots')
 
 FUN.correlation.heatmap=function (datac, table.out, plot.out, oma, type, width, height, pointsize,
-                                  cexRow, cexCol, keysize, main.tit)
+                                  cexRow, cexCol, keysize, main.tit, lwdd)
 {if (missing(type)) {type="spearman"}
   if (missing(width)) {width=5380}
   if (missing(height)) {height=3080}
@@ -13,6 +13,7 @@ FUN.correlation.heatmap=function (datac, table.out, plot.out, oma, type, width, 
   if (missing(keysize)) {keysize=1.2}
   if (missing(oma)) {oma=c(5,1,1,8)}
   if (missing(main.tit)) {main.tit="Correlation matrix"}
+  if (missing(lwdd)) {lwdd=2}
   
   cor=rcorr(as.matrix(datac), type=type)
 
