@@ -60,7 +60,7 @@ grab_grob <- function(){
   ccorp2[corp2<.05&corp2>=.01]="*"
   ccorp2[corp2<.001]="***"
   mcorp2=matrix(paste(round(corr2,2), ccorp2), nrow(corr2))
-  mcorp[mcorp=="NA NA"]=""
+  mcorp2[mcorp2=="NA NA"]=""
   
   notec2=corr2*0+4
   notec2[ccorp2!=""]=3
