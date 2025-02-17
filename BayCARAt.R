@@ -41,6 +41,7 @@
 F.BayCARA=function(data, group.var, categorical.covariates, continuous.covariates, group.level, ratio, categorical.weights, continuous.weights, start.number, num.categories, pct.deterministic, planned.sample.size, pRA, transformation.parameter)
 { if (missing(planned.sample.size)) {planned.sample.size=nrow(data)
 print("Please provide the planned sample size for this study by adding, for example, 'planned.sample.size=100' as the last component of the FUN.BCAR function. If not, then the randomization could be more deterministic.")}
+  if (missing(transformation.parameter)) {transformation.parameter=1/2}
   if (missing(num.categories)) {num.categories=3}
   if (missing(pct.deterministic)) {pct.deterministic=0.05}
   if (missing(start.number)) {start.number=15}
