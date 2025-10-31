@@ -1,0 +1,56 @@
+Compare the change rate for two correlated outcomes.
+
+Both codes implement the same conceptual mixed-effects structure for two correlated outcomes:
+
+Fixed effects: Both include time, var, and their interaction.
+Random effects:
+
+SAS uses type=CS (compound symmetry), which assumes equal variance and a single correlation between the two outcomes.
+R uses (1 | ID) + (0 + var | ID), which for two outcomes effectively estimates the same correlation structure as CS.
+
+
+With only two outcomes, CS and the R specification are mathematically equivalent because there is only one correlation parameter to estimate.
+
+Therefore, despite different syntax, the underlying model assumptions are aligned, leading to identical results.
+
+
+
+
+R code:
+
+library('lmerTest')  # Loads lmerTest for mixed-effects modeling with p-values
+
+lmout = lmer(y ~ as.factor(time) * var + (1 | ID) + (0 + var | ID), data = outs)
+summary(lmout)  # Displays fixed and random effects estimates
+
+
+# Mixed-effects model:
+# y ~ as.factor(time) * var: Fixed effects include time, var, and their interaction
+# (1 | ID): Random intercept for each subject
+# (0 + var | ID): Random slope for var without intercept correlation
+# data = outs: Ensure 'outs' contains columns y, time, var, and ID
+
+
+SAS code:
+
+ 
+proc mixed data=data;
+   class ID var time(ref='0');
+   model y2 = time | var / s ddfm=kenwardroger;
+   random intercept var / subject=ID type=cs v vcorr g gcorr;
+   lsmeans var*time;
+run;
+
+
+proc mixed data=data;
+   class ID var time(ref='0');  /* Declares categorical variables */
+   model y2 = time | var / s ddfm=kenwardroger;  
+   /* time | var expands to time var time*var interaction */
+   /* 's' requests solution for fixed effects; Kenward-Roger adjusts degrees of freedom */
+
+   random intercept var / subject=ID type=cs v vcorr g gcorr;  
+   /* Random intercept and var slope per subject with compound symmetry (CS) covariance */
+   /* 'v vcorr' prints variance/correlation estimates; 'g gcorr' prints G matrix */
+
+   lsmeans var*time;  /* Computes least-squares means for var*time interaction */
+run;
