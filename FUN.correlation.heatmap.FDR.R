@@ -65,7 +65,7 @@ FUN.correlation.heatmap = function (datac, table.out, plot.out, oma, type, width
   colnames(dmcorp)=names(datac)
   
   # FIX: Used file.path for robust path building
-  write.csv(dmcorp, file.path(table.out, paste0(main.tit,".",, Sys.Date(),".csv")))
+  write.csv(dmcorp, file.path(table.out, paste0(main.tit,".", Sys.Date(),".csv")))
   
   # Plotting
   tiff(file.path(plot.out, paste0(main.tit, to.file, "_", Sys.Date(), ".tif")),
