@@ -24,7 +24,7 @@ FUN.correlation.heatmap = function (datac, table.out, plot.out, oma, type, width
 {
   # Set defaults
   if (missing(type)) {type="spearman"}
-  if (missing(to.file)) {to.file="out."}
+  if (missing(to.file)) {to.file="."}
   if (missing(width)) {width=5380}
   if (missing(height)) {height=3080}
   if (missing(pointsize)) {pointsize=50}
@@ -65,7 +65,7 @@ FUN.correlation.heatmap = function (datac, table.out, plot.out, oma, type, width
   colnames(dmcorp)=names(datac)
   
   # FIX: Used file.path for robust path building
-  write.csv(dmcorp, file.path(table.out, paste0("Corr table.", Sys.Date(),".csv")))
+  write.csv(dmcorp, file.path(table.out, paste0(main.tit,".",, Sys.Date(),".csv")))
   
   # Plotting
   tiff(file.path(plot.out, paste0(main.tit, to.file, "_", Sys.Date(), ".tif")),
